@@ -17,10 +17,10 @@ git clone https://github.com/MitkuDubale38/Ecommerce-Website-Using-Django
 
 Tech Stack
 
-HTML
-CSS
-Javascript 
-Bootstrap 
-JQUERY 
-Python
+HTML,
+CSS,
+Javascript,
+Bootstrap 4,
+JQUERY,
+Python,
 Django
