@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+{% block title %} Suke | Product Detail {% endblock %}
+{% load static %}
+{% load cart_tag %}
+
+{% block content %}
+     
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">Product Detail</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Product Detail Start -->
+        <div class="product-detail">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="product-detail-top">
+                            <div class="row align-items-center">
+                               
+                                <div class="col-md-5">
+                                {% include 'messages.html' %}
+                                    <div class="product-slider-single normal-slider">
+                                        <img src="{{  product_detail.image.url }}" alt="Product Image">
+                                        
+                                    </div>
+                            
+                                </div>
+
+                                <div class="col-md-7">
+                                    <div class="product-content">
+                                        <div class="title"><h2>{{ product_detail.name }}</h2></div>
+                                        <div class="ratting">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <p> {{ product_detail.product_category }} </p>
+                                        <div class="price">
+                                            <h4>Price:</h4>
+                                            <p>{{product_detail.price }} <small>Br</small></p>
+                                        </div>
+
+                                        <!--
+                                        <div class="quantity">
+                                            <h4>Quantity:</h4>
+                                            <div class="qty">
+                                             
+                                                <button type="button" class="btn-minus"><a href="{% url 'item_decrement' product_detail.id %}"><font color="#fff"><i class="fa fa-minus"></font></i></a></button>
+                                                <input type="text" disabled value={{request.session.cart.items.quantity}}>
+                                                <button type="button" class="btn-plus"><a href="{% url 'item_increment' product_detail.id %}"><font color="#fff"><i class="fa fa-plus"></font></i></a></button>
+                                              
+                                            </div>
+                                        </div>
+
+                                        
+                                        <div class="p-size">
+                                            <h4>Size:</h4>
+                                            <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+                                                <button type="button" name="options" class="btn">S</button>
+                                                <button type="button" name="options" class="btn">M</button>
+                                                <button type="button"name="options"  class="btn">L</button>
+                                                <button type="button" name="options" class="btn">XL</button>
+                                            </div> 
+                                        </div>
+                                        <div class="p-color">
+                                            <h4>Color:</h4>
+                                            <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+                                                <button type="button" name="options" class="btn">White</button>
+                                                <button type="button" name="options" class="btn">Black</button>
+                                                <button type="button" name="options" class="btn">Blue</button>
+                                            </div> 
+                                        </div>-->
+                                        <div class="action">
+                                            <a class="btn" href="{% url 'cart_add' product.id %}" ><i class="fa fa-shopping-cart"></i>Add to Cart</a>
+                                            <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Buy Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                              
+
+                            </div>
+                        </div>
+                        
+                        <div class="row product-detail-bottom">
+                            <div class="col-lg-12">
+                                <ul class="nav nav-pills nav-justified">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="pill" href="#description">Description</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="pill" href="#specification">Specification</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="pill" href="#reviews">Reviews ( {{ product_detail.reviews.count }} )</a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div id="description" class="container tab-pane active">
+                                        <h5>Product description</h5>
+                                        <p>
+                                            {{ product_detail.product_description }} 
+                                        </p>
+                                    </div>
+                                    <div id="specification" class="container tab-pane fade">
+                                        <h5>Product Specification</h5>
+                                        <ul>
+                                            {% if product_detail.product_specification %}
+                                            <li>{{ product_detail.product_specification}}  </li>
+
+                                            {% else %}
+                                             <li> There are no specifications to display. </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+
+                                   
+                                    <div id="reviews" class="container tab-pane fade">
+                                    
+                                     
+                                    {% if not product_detail.reviews.all %}
+                                        <p> No Reviews Yet...</P>
+                                    {% else %}
+
+                                    {% include 'messages.html' %}  
+
+                                    {% for review in product_detail.reviews.all %}
+                                        <div class="reviews-submitted">
+                                            <div class="reviewer">
+                                           
+                                            
+                                            
+                                           {{ review.name}} <small> <span> - {{review.date_add}}</span></small></div>
+                                            <br>
+                                            <p>
+                                                {{review.review_body}}
+                                                 <hr>
+                                            </p>
+                                            
+                                            
+                                        </div>
+                                       
+                                    {% endfor %}
+                                    {% endif %}
+
+
+                                        
+                                        <div class="reviews-submit">
+                                            <h5>Give your Review:</h5>
+                                           
+                                            <form   action={% url 'review'  product_detail.id %}  method="POST" >
+                                                {% csrf_token %}
+
+                                            <div class="row form">
+                                            {% if user.is_authenticated %}
+                                                
+                                                <div class="col-sm-6">
+                                                    <input  type="hidden" placeholder="name" name="name" id="name" value={{user.first_name}}>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <input  type="hidden" placeholder="email"  name="email" id= "email" value={{user.email}}>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <textarea placeholder="Review" id="review_body" name="review_body"></textarea>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <button type="submit">Submit</button>
+                                                </div>
+                                            {% else %}
+
+                                                 <div class="col-sm-12">
+                                                    <textarea disabled placeholder="Please login to review products" id="review_body" name="review_body"></textarea>
+                                                 </div>
+                                                 <div class="col-sm-12">
+                                                    <button disabled type="submit">Submit</button>
+                                                 </div>
+                                            
+                                            {% endif %}
+                                            </div>
+                                            </form>
+                                        </div>
+                                       
+
+                                        
+
+                                    </div>
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="product">
+                            <div class="section-header">
+                                <h1>Related Products</h1>
+                            </div>
+
+                            <div class="row align-items-center product-slider product-slider-3">
+                                 {% for related_product in related_products %}
+                                <div class="col-lg-12">
+                                    <div class="product-item">
+                                        <div class="product-title">
+                                            <a href="{% url 'product_detail' related_product.id %}">{{ related_product.name }}</a>
+                                            <div class="ratting">
+                                                <a href="{% url 'product_detail' related_product.id %}">
+                                                    <small>View Details</small>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="product-image">
+                                            <a href="product-detail.html">
+                                                <img src="{{ related_product.image.url }}"  alt="Product Image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="{% url 'cart_add' related_product.id %}"><i class="fa fa-cart-plus"></i></a>
+                                                <a href="#"><i class="fa fa-heart"></i></a>
+                                                <a href="#"><i class="fa fa-search"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-price">
+                                            <h3 style="font-size:14px !important;">{{ related_product.price }} <span>Br</span></h3>
+                                            <a class="btn btn-sm" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                 {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Side Bar Start -->
+                    <div class="col-lg-4 sidebar">
+                        <div class="sidebar-widget category">
+                            <h2 class="title">Category</h2>
+                            <nav class="navbar bg-light">
+                                <ul class="navbar-nav">
+                                    {% for category in categories %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">{{ category.category_name }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        </div>
+                        
+                        <div class="sidebar-widget widget-slider">
+                            <div class="sidebar-slider normal-slider">
+                                {% for product in products %}
+                                <div class="product-item">
+                                    <div class="product-title">
+                                        <a href="{% url 'product_detail' product.id %}">{{ product.product_category }} </a>
+                                        <div class="ratting">
+                                            <a href="{% url 'product_detail' product.id %}">{{ product.name }} </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-image">
+                                        <a href="product-detail.html">
+                                            <img src="{{ product.image.url }}" alt="Product Image">
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="{% url 'cart_add' product.id %}"><i class="fa fa-cart-plus"></i></a>
+                                            <a href="#"><i class="fa fa-heart"></i></a>
+                                            <a href="#"><i class="fa fa-search"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="product-price">
+                                        <h3>{{ product.price }} <span>Br</span></h3>
+                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                              
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-widget brands">
+                            <h2 class="title">Our Brands</h2>
+                            <ul>
+                                <li><a href="#">Nulla </a><span>(45)</span></li>
+                                <li><a href="#">Curabitur </a><span>(34)</span></li>
+                                <li><a href="#">Nunc </a><span>(67)</span></li>
+                                <li><a href="#">Ullamcorper</a><span>(74)</span></li>
+                                <li><a href="#">Fusce </a><span>(89)</span></li>
+                                <li><a href="#">Sagittis</a><span>(28)</span></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="sidebar-widget tag">
+                            <h2 class="title">Tags Cloud</h2>
+                            <a href="#">Lorem ipsum</a>
+                            <a href="#">Vivamus</a>
+                            <a href="#">Phasellus</a>
+                            <a href="#">pulvinar</a>
+                            <a href="#">Curabitur</a>
+                            <a href="#">Fusce</a>
+                            <a href="#">Sem quis</a>
+                            <a href="#">Mollis metus</a>
+                            <a href="#">Sit amet</a>
+                            <a href="#">Vel posuere</a>
+                            <a href="#">orci luctus</a>
+                            <a href="#">Nam lorem</a>
+                        </div>
+                    </div>
+                    <!-- Side Bar End -->
+                </div>
+            </div>
+        </div>
+        <!-- Product Detail End -->
+        
+        <!-- Brand Start -->
+        <div class="brand">
+            <div class="container-fluid">
+                <div class="brand-slider">
+                    <div class="brand-item"><img src={% static "img/brand-1.png" %} alt=""></div>
+                    <div class="brand-item"><img src={% static "img/brand-2.png" %}></div>
+                    <div class="brand-item"><img src={% static "img/brand-3.png" %}></div>
+                    <div class="brand-item"><img src={% static "img/brand-4.png" %}></div>
+                    <div class="brand-item"><img src={% static "img/brand-5.png" %}></div>
+                    <div class="brand-item"><img src={% static "img/brand-6.png" %}></div>
+                </div>
+            </div>
+        </div>
+        <!-- Brand End -->
+        <script>
+            setTimeout(function(){
+            if ($('#msg').length > 0) {
+                $('#msg').remove();
+            }
+            }, 4000)
+        </script> 
+     
+    </body>
+     {% endblock %}
+</html>

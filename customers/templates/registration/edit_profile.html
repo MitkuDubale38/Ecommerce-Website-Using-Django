@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Profile {% endblock %}
+
+{% block content %}
+
+<div class="row" style="margin:10px;">
+    <div class="col-sm-6 offset-sm-3">
+       <center> <h3>Edit Settings</h3></center>
+
+
+        <div class="form-group">
+            <form method="POST">
+                <br>
+                {% csrf_token %}
+                {{form.as_p}}
+
+                <button class="btn btn-secondary">Update profile</button>
+                <button type="reset" class="btn btn-danger">Reset</button>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}

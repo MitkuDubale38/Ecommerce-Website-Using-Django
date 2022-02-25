@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %} Suke | Contact Us {% endblock %}
+
+
+{% block content %}
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">Contact</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Contact Start -->
+        <div class="contact">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="contact-info">
+                            <h2>Our Office</h2>
+                            <h3><i class="fa fa-map-marker"></i>Ethiopia Addis Abeba, Gerji</h3>
+                            <h3><i class="fa fa-envelope"></i>suke@gmail.com</h3>
+                            <h3><i class="fa fa-phone"></i>+251 938383838</h3>
+                            <div class="social">
+                                <a href=""><i class="fab fa-twitter"></i></a>
+                                <a href=""><i class="fab fa-facebook-f"></i></a>
+                                <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                <a href=""><i class="fab fa-instagram"></i></a>
+                                <a href=""><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="contact-info">
+                            <h2>Our Store</h2>
+                            <h3><i class="fa fa-map-marker"></i>Ethiopia Addis Abeba, Gerji</h3>
+                            <h3><i class="fa fa-envelope"></i>suke_store@gmail.com</h3>
+                            <h3><i class="fa fa-phone"></i>+251 938383838</h3>
+                            <div class="social">
+                                <a href=""><i class="fab fa-twitter"></i></a>
+                                <a href=""><i class="fab fa-facebook-f"></i></a>
+                                <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                <a href=""><i class="fab fa-instagram"></i></a>
+                                <a href=""><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="contact-form">
+                            <form  action={% url 'contact_us'  %}  method="POST">
+                                 {% csrf_token %}
+
+                                 <center><h4> Contact Us </h4></center>
+                                 {% include 'messages.html' %}
+                                 <br>
+                                <div class="form-group">
+                                    
+                                        <input type="text" class="form-control" name="name" placeholder="Your Name" />
+                                    
+                                    
+                                </div>
+
+                                <div class="form-group">
+                                        <input type="email" class="form-control" name="email" placeholder="Your Email" />
+                                    </div>
+                    
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="5" name="message" placeholder="Message"></textarea>
+                                </div>
+                                <div><button class="btn" type="submit">Send Message</button></div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="contact-map">
+                           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.7333095702447!2d38.80733765372311!3d8.996669526912376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85262f1ff6f7%3A0xab0af0baaab0bc1d!2zR2VyamkgQ29uZG9taW5pdW0gfCDhjIjhiK3hjIIg4Yqu4YqV4Yu24Yia4YqS4Yuo4Yid!5e0!3m2!1sen!2set!4v1628112136442!5m2!1sen!2set" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contact End -->
+        <script>
+            setTimeout(function(){
+            if ($('#msg').length > 0) {
+                $('#msg').remove();
+            }
+            }, 4000)
+        </script> 
+            
+    </body>
+
+{% endblock %}
+</html>

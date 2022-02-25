@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %} Suke | Home {% endblock %}
+{% load static %}
+
+{% block content %}
+
+<div class="featured-product product">
+            <div class="container-fluid">
+                <div class="section-header">
+                    <h1>Search Results</h1>
+                </div>
+               
+               {% if object_list %}
+                <div class="row align-items-center product-slider product-slider-4">
+                 {% for product in  object_list %}
+                    <div class="col-lg-9" >
+                        <div class="product-item">
+                            <div class="product-title">
+                                <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                                <div class="ratting">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="product-image">
+                                <a href="product-detail.html">
+                                    <img src="{{ product.image.url }}" alt="Product Image">
+                                </a>
+                                <div class="product-action">
+                                    <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                    <a href="#"><i class="fa fa-heart"></i></a>
+                                    <a href="#"><i class="fa fa-search"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-price">
+                                <h3>{{ product.price }}<span>Br</span></h3>
+                                <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+                  {% endfor %} 
+                </div>
+                {% else %}
+
+                <center><h4> No Results Found </h4><center>
+
+
+            </div>
+        </div>
+
+
+
+{% endif %}
+
+
+{% endblock %}

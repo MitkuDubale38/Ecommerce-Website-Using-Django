@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %} Register {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <center>
+           <center> <h3>Register</h3></center>
+        </center>
+        <div class="form-group">
+            <form method="POST">
+                <br>
+                {% csrf_token %}
+                {{form.as_p}}
+
+                <button class="btn btn-secondary btn-block">Sign up</button>
+                <button type="reset" class="btn btn-danger btn-block">Reset</button>
+            </form>
+            <br>
+        </div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends 'base.html' %} 
+{% block title %} Suke | Cart {% endblock %} 
+{% load cart_tag %} {{request.session.cart|length}} 
+{% block content %}
+
+<!-- Breadcrumb Start -->
+<div class="breadcrumb-wrap">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'products'%}">Products</a></li>
+            <li class="breadcrumb-item active">Cart</li>
+        </ul>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Cart Start -->
+<div class="cart-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="cart-page-inner">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            {% include 'messages.html' %}
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody class="align-middle">
+                                {% for key,value in request.session.cart.items %}
+                                <tr>
+                                    <td>
+                                        <div class="img">
+                                            <a href="#"><img src={{value.image}} alt="Image"></a>
+                                            <p> {{value.name}}</p>
+                                        </div>
+                                    </td>
+                                    <td>{{value.price }} Br</td>
+                                    <td>
+                                        <div class="qty">
+
+                                            <button type="button" class="btn-minus"><a href="{% url 'item_decrement' value.product_id %}"><font color="#fff"><i class="fa fa-minus"></font></i></a></button>
+                                            <input type="text" disabled value={{value.quantity}}>
+                                            <button type="button" class="btn-plus"><a href="{% url 'item_increment' value.product_id %}"><font color="#fff"><i class="fa fa-plus"></font></i></a></button>
+
+                                        </div>
+                                    </td>
+                                    <td id="price">{{ value.price|multiply:value.quantity }} Br</td>
+                                    <td><a href="{% url 'item_clear'  value.product_id  %}" class="btn btn-danger"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="cart-page-inner">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="coupon">
+                                <input type="text" placeholder="Coupon Code">
+                                <button>Apply Code</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="cart-summary">
+                                <div class="cart-content">
+                                    <h1>Cart Summary</h1>
+
+                                    <p>Sub Total<span id="total_price"> </span></p>
+                                    <p>Shipping Cost<span>50 </span></p>
+                                    <h2>Grand Total <small>Birr</small><span id="grand_total"> </span></h2>
+
+                                    <script type="text/javascript">
+                                        //dummy js code.
+                                        //js script for calculating  sub total price
+
+                                        var sum = 0;
+
+
+
+                                        
+                                         {% for key, value in request.session.cart.items %}
+
+
+
+                                        var b = parseInt("{{ value.price|multiply:value.quantity }}");
+                                        sum = sum + b;
+
+                                        {% endfor %}
+                                        
+
+                                        console.log(sum);
+                                        document.getElementById("total_price").innerHTML = sum;
+
+                                        //js script for calculating  Grand total price
+
+                                        var grand_total = parseInt(sum) + parseInt(50);
+                                        document.getElementById("grand_total").innerHTML = grand_total;
+                                        console.log(grand_total);
+                                    </script>
+
+
+
+                                </div>
+                                <script>
+                                    const product_names = [];
+                                    const prices = [];
+                                    const quantity = [];
+
+
+                                    
+                                      {%  for key, value in request.session.cart.items %}
+                                    
+                                    product_names.push("{{ value.name }}");
+                                    prices.push("{{ value.price }}");
+                                    quantity.push("{{value.quantity}}");
+
+                                    {% endfor %}
+                                   
+
+                                    total_p = 0.0
+                                    total_p = document.getElementById("total_price").value
+                                    grand_total_p = grand_total
+
+
+
+                                    for (var i = 0; i < product_names.length; i++) {
+                                        console.log(product_names);
+                                    }
+                                </script>
+
+
+
+
+                                <br>
+                                <div class="d-flex ">
+
+                                    <a href="{% url 'cart_clear'  %}">
+                                        <button class="btn ">Clear Cart</button>
+                                    </a>
+
+                                    <a href="{% url 'checkout' %}" style="margin-left:20px;">
+                                        <button class="btn ">Checkout</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Cart End -->
+<script>
+    setTimeout(function() {
+        if ($('#msg').length > 0) {
+            $('#msg').remove();
+        }
+    }, 4000)
+</script>
+</body>
+ {% endblock %} 
+</html>

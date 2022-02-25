@@ -1,0 +1,306 @@
+{% extends 'base.html' %}
+{% block title %} Suke | Products {% endblock %}
+{% load static %}
+
+
+{% block content %}
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">Product List</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Product List Start -->
+        <div class="product-view">
+            <div class="container-fluid">
+             
+                <div class="row">
+                
+                    <div class="col-lg-8">
+                    {% include 'messages.html' %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="product-view-top">
+                                    <div class="row">
+                                       
+                                        <div class="col-md-6">
+                                            <div class="product-short">
+                                                <div class="dropdown">
+                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product short by</div>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a href="#" class="dropdown-item">Newest</a>
+                                                        <a href="#" class="dropdown-item">Popular</a>
+                                                        <a href="#" class="dropdown-item">Most sale</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="product-price-range">
+                                                <div class="dropdown">
+                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product price range</div>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a href="#" class="dropdown-item">$0 to $50</a>
+                                                        <a href="#" class="dropdown-item">$51 to $100</a>
+                                                        <a href="#" class="dropdown-item">$101 to $150</a>
+                                                        <a href="#" class="dropdown-item">$151 to $200</a>
+                                                        <a href="#" class="dropdown-item">$201 to $250</a>
+                                                        <a href="#" class="dropdown-item">$251 to $300</a>
+                                                        <a href="#" class="dropdown-item">$301 to $350</a>
+                                                        <a href="#" class="dropdown-item">$351 to $400</a>
+                                                        <a href="#" class="dropdown-item">$401 to $450</a>
+                                                        <a href="#" class="dropdown-item">$451 to $500</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                           {% if filtered_product %}
+                           
+
+                             {% for product in filtered_product %}
+                            <div class="col-md-4">
+                                <div class="product-item">
+                                    <div class="product-title">
+                                        <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                                        <div class="ratting">
+                                             <a href="{% url 'product_detail' product.id %}">
+                                            <small>View Details</small>
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-image">
+                                        <a href="{% url 'product_detail' product.id %}">
+                                            <img src="{{ product.image.url }}"  alt="Product Image">
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="{% url 'cart_add' product.id %}"><i class="fa fa-cart-plus"></i></a>
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="product-price">
+                                        <small> <h3 style="font-size:14px !important;"> {{ product.price }} <span> Br</span></h3></small>
+                                        <a class="btn btn-sm" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %} 
+
+                           {% else %}
+                           
+                            {% for product in products %}
+                            <div class="col-md-4">
+                                <div class="product-item">
+                                    <div class="product-title">
+                                        <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                                        <div class="ratting">
+                                             <a href="{% url 'product_detail' product.id %}">
+                                            <small>View Details</small>
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-image">
+                                        <a href="{% url 'product_detail' product.id %}">
+                                            <img src="{{ product.image.url }}"  alt="Product Image">
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="{% url 'cart_add' product.id %}"><i class="fa fa-cart-plus"></i></a>
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="product-price">
+                                        <small> <h3 style="font-size:14px !important;"> {{ product.price }} <span> Br</span></h3></small>
+                                        <a class="btn btn-sm" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %} 
+                            {% endif %}
+                            
+                           {% if is_paginated %}
+                            <div class="row offset-4">
+                                <div class="col-lg-7">
+                                </div>
+                                <div class="col-6 col-lg-5 col-md-6">
+                                    <nav aria-label="Page navigation conatiner">
+                                        <ul class="pagination justify-content-center pagination-sm">
+                                            {% if page_obj.has_previous %}
+                                            <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link" style="width:100px; padding-left:20px; padding-bottom:10px;padding-top:10px;" > <b>&laquo;  PREV </b> </a></li>
+                                        
+                                            {% endif %}
+                                            {% if page_obj.has_next %}
+                                            <li><a href="?page={{ page_obj.next_page_number }}" class="page-link" style="width:100px; padding:10px;"> <b>See more &raquo;</b> </a></li>
+
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            
+                            {% endif %}
+                            
+
+                        </div>
+                        
+                        
+
+                         <!--
+                         {% if is_paginated %}
+                        <!-- Pagination Start 
+                        <div class="col-md-12">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    {% if page_obj.has_previous %}
+
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}"  tabindex="-1">Previous</a>
+                                    </li>
+
+                                    {% else %}
+                                    
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">Previous</a>
+                                    
+                                    </li>
+
+                                    {% endif %}
+                                    
+                                    {% for i in page_obj.paginator.page_range %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                                    {% endfor %} 
+
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                    </li>
+
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- Pagination ends 
+                        {% endif %}-->
+
+                    </div>           
+                    
+                    <!-- Side Bar Start -->
+                    <div class="col-lg-4 sidebar">
+                        <div class="sidebar-widget category">
+                            <h2 class="title">Category</h2>
+                            <nav class="navbar bg-light">
+                                <ul class="navbar-nav">
+                                   
+                                    {% for category in categories %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'products' %}">{{ category.category_name }}</a>
+                                    </li>
+                                    {% endfor %}
+                                   
+                                </ul>
+                            </nav>
+                        </div>
+                        
+                        <div class="sidebar-widget widget-slider">
+                            <div class="sidebar-slider normal-slider">
+                                 {% for product in products %}
+                                <div class="product-item">
+                                    <div class="product-title">
+                                        <a href="#">{{ product.product_category }} </a>
+                                        <div class="ratting">
+                                            <a href="{% url 'product_detail' product.id %}">{{ product.name }} </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-image">
+                                        <a href="product-detail.html">
+                                            <img src="{{ product.image.url }}" alt="Product Image">
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="{% url 'cart_add' product.id %}"><i class="fa fa-cart-plus"></i></a>
+                                          
+                                        </div>
+                                    </div>
+                                    <div class="product-price">
+                                        <h3 style="font-size:14px !important;">{{ product.price }} <span>Br</span></h3>
+                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-widget brands">
+                            <h2 class="title">Our Brands</h2>
+                            <ul>
+                                <li><a href="#">Nulla </a><span>(45)</span></li>
+                                <li><a href="#">Curabitur </a><span>(34)</span></li>
+                                <li><a href="#">Nunc </a><span>(67)</span></li>
+                                <li><a href="#">Ullamcorper</a><span>(74)</span></li>
+                                <li><a href="#">Fusce </a><span>(89)</span></li>
+                                <li><a href="#">Sagittis</a><span>(28)</span></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="sidebar-widget tag">
+                            <h2 class="title">Tags Cloud</h2>
+                            <a href="#">Lorem ipsum</a>
+                            <a href="#">Vivamus</a>
+                            <a href="#">Phasellus</a>
+                            <a href="#">pulvinar</a>
+                            <a href="#">Curabitur</a>
+                            <a href="#">Fusce</a>
+                            <a href="#">Sem quis</a>
+                            <a href="#">Mollis metus</a>
+                            <a href="#">Sit amet</a>
+                            <a href="#">Vel posuere</a>
+                            <a href="#">orci luctus</a>
+                            <a href="#">Nam lorem</a>
+                        </div>
+                    </div>
+                    <!-- Side Bar End -->
+                </div>
+            </div>
+        </div>
+        <!-- Product List End -->  
+        
+        <!-- Brand Start -->
+        <div class="brand">
+            <div class="container-fluid">
+                <div class="brand-slider">
+                    <div class="brand-item"><img src="img/brand-1.png" alt=""></div>
+                    <div class="brand-item"><img src="img/brand-2.png" alt=""></div>
+                    <div class="brand-item"><img src="img/brand-3.png" alt=""></div>
+                    <div class="brand-item"><img src="img/brand-4.png" alt=""></div>
+                    <div class="brand-item"><img src="img/brand-5.png" alt=""></div>
+                    <div class="brand-item"><img src="img/brand-6.png" alt=""></div>
+                </div>
+            </div>
+        </div>
+        <!-- Brand End -->
+        <script>
+            setTimeout(function(){
+            if ($('#msg').length > 0) {
+                $('#msg').remove();
+            }
+            }, 4000)
+        </script> 
+            
+    </body>
+    {% endblock %}
+    
+
+
+</html>
